@@ -1,0 +1,17 @@
+@import "/static/css/common.css";
+
+main {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-in-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.sign-in-card {
+    padding: 10px;
+}
