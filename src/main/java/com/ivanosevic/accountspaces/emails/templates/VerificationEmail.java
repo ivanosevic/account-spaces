@@ -3,7 +3,7 @@ package com.ivanosevic.accountspaces.emails.templates;
 
 import com.ivanosevic.accountspaces.emails.common.EmailTemplate;
 
-@EmailTemplate(path = "emails/accountVerificationEmail.html")
+@EmailTemplate(path = "emails/notificationEmail.html")
 public class VerificationEmail extends Email {
 
     private final String accountFullname;

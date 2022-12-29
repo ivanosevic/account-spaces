@@ -46,6 +46,15 @@ public class DefaultAccountService implements AccountService {
     }
 
     @Override
+    public void createAccount(AccountForm accountForm) {
+        var hashedPassword = passwordEncoder.encode(accountForm.getPassword());
+        var account = new Account(accountForm.getName(), accountForm.getLastname(), null, accountForm.getEmailAddress(), hashedPassword);
+        var newAccount = accountRepository.save(account);
+        var accountCreatedEvent = new AccountCreatedEvent(this, newAccount.getId(), newAccount.getFullname(), newAccount.getEmail(), newAccount.getUsername());
+        applicationEventPublisher.publishEvent(accountCreatedEvent);
+    }
+
+    @Override
     public Account findById(Integer id) {
         return accountRepository.findById(id).orElseThrow(AccountNotFoundException::new);
     }

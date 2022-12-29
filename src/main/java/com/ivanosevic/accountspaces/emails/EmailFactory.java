@@ -2,7 +2,6 @@ package com.ivanosevic.accountspaces.emails;
 
 import com.ivanosevic.accountspaces.emails.templates.Email;
 import com.ivanosevic.accountspaces.emails.templates.NotificationEmail;
-import com.ivanosevic.accountspaces.emails.templates.VerificationEmail;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,13 +17,7 @@ public class EmailFactory {
     public Email verificationEmail(String to, String accountFullname, String verifyCode) {
         var verifyAccountUrl = contextProperties.getWebsiteUrl() + "/verify-account?verificationCode=" + verifyCode;
         var title = "Verify your account - Account Spaces";
-        var emailSupport = contextProperties.getSupportEmailAddress();
-        return new VerificationEmail(
-                to,
-                title,
-                accountFullname,
-                verifyAccountUrl
-        );
+        return new NotificationEmail(to, title, accountFullname, verifyAccountUrl);
     }
 
     public Email basicInformationUpdatedEmail(String to, String accountFullname) {

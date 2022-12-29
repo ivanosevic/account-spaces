@@ -91,4 +91,25 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="28122022-5" author="ivanosevic">
+        <createTable schemaName="public" tableName="account_verification">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="INT">
+                <constraints nullable="false" foreignKeyName="fk_account_verification_account_id" references="account(id)"/>
+            </column>
+            <column name="token" type="CLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="28122022-6" author="ivanosevic">
+        <modifyDataType tableName="account_verification" columnName="token" newDataType="text" />
+    </changeSet>
+
 </databaseChangeLog>

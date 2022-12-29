@@ -43,6 +43,7 @@ public class Account implements Serializable, UserDetails {
 
     public Account() {
         this.accountRoles = new ArrayList<>();
+        this.isVerified = false;
     }
 
     public Account(String name, String lastname, String profileSummary, String email, String password) {
@@ -51,7 +52,7 @@ public class Account implements Serializable, UserDetails {
         this.profileSummary = profileSummary;
         this.email = email;
         this.password = password;
-        this.isVerified = true;
+        this.isVerified = false;
     }
 
     @PrePersist

@@ -33,9 +33,12 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors();
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/verify-account").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/static/**", "/webjars/**").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/sign-in").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/sign-in").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/sign-up").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/sign-up").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/logout").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/account-spaces/my-profile").authenticated();
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/account-spaces/my-profile/basic-information").authenticated();

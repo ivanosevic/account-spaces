@@ -33,8 +33,25 @@ public class AccountController {
     }
 
     @GetMapping("/sign-up")
-    public String showSignUpPage() {
+    public String showSignUpPage(Model model) {
+        if(!model.containsAttribute("accountForm")) {
+            var accountForm = new AccountForm();
+            model.addAttribute("accountForm", accountForm);
+        }
         return "sign-up";
+    }
+
+    @PostMapping("/sign-up")
+    public String createAccount(@Valid AccountForm accountForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, @AuthenticationPrincipal Account signedInAccount) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.accountForm", bindingResult);
+            redirectAttributes.addFlashAttribute("accountForm", accountForm);
+            redirectAttributes.addAttribute("errorCreatingAccount", "true");
+            return "redirect:/sign-up";
+        }
+        accountService.createAccount(accountForm);
+        redirectAttributes.addAttribute("accountCreated", "true");
+        return "redirect:/sign-in";
     }
 
     @GetMapping("/account-spaces/my-profile")

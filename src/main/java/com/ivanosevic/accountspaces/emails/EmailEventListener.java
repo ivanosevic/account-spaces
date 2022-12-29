@@ -2,6 +2,7 @@ package com.ivanosevic.accountspaces.emails;
 
 import com.ivanosevic.accountspaces.accounts.BasicInformationUpdatedEvent;
 import com.ivanosevic.accountspaces.accounts.PasswordUpdatedEvent;
+import com.ivanosevic.accountspaces.verifications.VerificationCreatedEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -27,5 +28,10 @@ public class EmailEventListener {
     public void sendPasswordChangedEmail(PasswordUpdatedEvent passwordUpdatedEvent) {
         var basicInformationUpdatedEmail = emailFactory.passwordChangedEmail(passwordUpdatedEvent.getEmail(), passwordUpdatedEvent.getFullname());
         emailService.send(basicInformationUpdatedEmail);
+    }
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void sendVerificationEmail(VerificationCreatedEvent verificationCreatedEvent) {
+        var sendVerificationEmail = emailFactory.verificationEmail(verificationCreatedEvent.getEmailAddress(), verificationCreatedEvent.getFullname(), verificationCreatedEvent.getToken());
+        emailService.send(sendVerificationEmail);
     }
 }
