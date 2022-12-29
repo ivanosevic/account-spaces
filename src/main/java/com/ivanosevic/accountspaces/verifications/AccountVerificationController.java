@@ -14,7 +14,6 @@ public class AccountVerificationController {
     }
 
     @GetMapping("/verify-account")
-    @ResponseStatus(HttpStatus.OK)
     public String verifyAccount(@RequestParam String verificationCode) {
         accountVerificationService.verifyAccount(verificationCode);
         return "redirect:/sign-in";
