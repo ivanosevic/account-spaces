@@ -20,6 +20,8 @@ The relationships are used as follows:
 - uses. The module has a Spring component dependency and actively interacts with the target module. Implies a type dependency into the target module as well
 - listens to. The module contains an event listener for events the target modules publishes. Implies a type dependency into the target module as well
 - depends on. The module has a general type dependency to the target module, i.e. it uses the target module as library.
+
+
 ![Modules.PNG](resources/Modules.PNG)
 
 ### Current Architecture Diagram 
