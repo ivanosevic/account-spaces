@@ -12,4 +12,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     @Query("SELECT a FROM Account a LEFT JOIN FETCH a.accountRoles as ar LEFT JOIN FETCH ar.role WHERE a.id = :id")
     Optional<Account> findAccountDetailsById(Integer id);
+
+    @Query("SELECT a FROM Account a WHERE a.id = :id")
+    Optional<Account> findByIdNoRelations(Integer id);
 }

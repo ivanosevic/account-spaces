@@ -173,6 +173,10 @@ public class Account implements Serializable, UserDetails {
         this.updatedAt = updatedAt;
     }
 
+    public String getFullname() {
+        return this.name + " " + this.lastname;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
