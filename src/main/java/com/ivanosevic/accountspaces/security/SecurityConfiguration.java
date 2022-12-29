@@ -40,6 +40,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/account-spaces/my-profile").authenticated();
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/account-spaces/my-profile/basic-information").authenticated();
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/account-spaces/change-password").authenticated();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/account-spaces/activity-log").authenticated();
         http.authorizeHttpRequests().anyRequest().denyAll();
 
         http.formLogin()

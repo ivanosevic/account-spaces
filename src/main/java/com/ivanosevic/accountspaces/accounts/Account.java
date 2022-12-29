@@ -54,6 +54,16 @@ public class Account implements Serializable, UserDetails {
         this.isVerified = true;
     }
 
+    @PrePersist
+    public void beforePersist() {
+        this.createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void beforeUpdate() {
+        this.updatedAt = Instant.now();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return accountRoles.stream().map(accountRole -> new SimpleGrantedAuthority("ROLE_" + accountRole.getRole().getName())).toList();

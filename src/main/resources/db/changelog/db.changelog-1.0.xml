@@ -74,4 +74,21 @@
         <sqlFile relativeToChangelogFile="true" path="data/accounts.sql"/>
     </changeSet>
 
+    <changeSet id="28122022-4" author="ivanosevic">
+        <createTable schemaName="public" tableName="activity_log">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="INT">
+                <constraints nullable="false" foreignKeyName="fk_activity_log_account_id" references="account(id)"/>
+            </column>
+            <column name="log_type" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

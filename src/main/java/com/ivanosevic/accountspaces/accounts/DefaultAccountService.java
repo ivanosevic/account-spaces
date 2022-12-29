@@ -27,7 +27,7 @@ public class DefaultAccountService implements AccountService {
         account.setLastname(form.getLastname());
         account.setProfileSummary(form.getProfileSummary());
         accountRepository.save(account);
-        var sendBasicInformationUpdatedEvent = new BasicInformationUpdatedEvent(this, account.getFullname(), account.getEmail());
+        var sendBasicInformationUpdatedEvent = new BasicInformationUpdatedEvent(this, accountId, account.getFullname(), account.getEmail());
         applicationEventPublisher.publishEvent(sendBasicInformationUpdatedEvent);
     }
 
@@ -41,7 +41,7 @@ public class DefaultAccountService implements AccountService {
         var hashedPassword = passwordEncoder.encode(changePasswordForm.getNewPassword());
         account.setPassword(hashedPassword);
         accountRepository.save(account);
-        var sendPasswordUpdatedEvent = new PasswordUpdatedEvent(this, account.getFullname(), account.getEmail());
+        var sendPasswordUpdatedEvent = new PasswordUpdatedEvent(this, accountId, account.getFullname(), account.getEmail());
         applicationEventPublisher.publishEvent(sendPasswordUpdatedEvent);
     }
 
