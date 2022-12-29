@@ -22,6 +22,11 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+    @GetMapping("/")
+    public String redirectToAccountProfile() {
+        return "redirect:/account-spaces/my-profile";
+    }
+
     @GetMapping("/sign-in")
     public String showSignInPage() {
         return "sign-in";
@@ -62,7 +67,7 @@ public class AccountController {
     }
 
     @PostMapping("/account-spaces/change-password")
-    public String updatePassword(@Valid ChangePasswordForm form, HttpServletRequest request, BindingResult bindingResult, RedirectAttributes redirectAttributes, @AuthenticationPrincipal Account signedInAccount) {
+    public String updatePassword(@Valid ChangePasswordForm form, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redirectAttributes, @AuthenticationPrincipal Account signedInAccount) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changePasswordForm", bindingResult);
             redirectAttributes.addFlashAttribute("changePasswordForm", form);

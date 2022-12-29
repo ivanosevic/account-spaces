@@ -32,7 +32,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors();
-
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/static/**", "/webjars/**").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/sign-in").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/sign-in").permitAll();
