@@ -1,6 +1,5 @@
 function logout(e) {
     e.preventDefault();
-    e.stopImmediatePropagation();
     document.getElementById('logoutForm').submit()
 }
 

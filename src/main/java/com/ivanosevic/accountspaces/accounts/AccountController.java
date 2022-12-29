@@ -37,8 +37,10 @@ public class AccountController {
     @GetMapping("/account-spaces/my-profile")
     public String showMyProfilePage(@AuthenticationPrincipal Account signedInAccount, Model model) {
         var currentAccountData = accountService.findById(signedInAccount.getId());
-        var accountBasicInformationForm = new AccountBasicInformationForm(currentAccountData.getName(), currentAccountData.getLastname(), currentAccountData.getProfileSummary());
-        model.addAttribute("basicInformationForm", accountBasicInformationForm);
+        if(!model.containsAttribute("accountBasicInformationForm")) {
+            var accountBasicInformationForm = new AccountBasicInformationForm(currentAccountData.getName(), currentAccountData.getLastname(), currentAccountData.getProfileSummary());
+            model.addAttribute("accountBasicInformationForm", accountBasicInformationForm);
+        }
         var changePasswordForm = new ChangePasswordForm();
         model.addAttribute("changePasswordForm", changePasswordForm);
         return "my-profile";
@@ -46,6 +48,12 @@ public class AccountController {
 
     @PostMapping("/account-spaces/my-profile/basic-information")
     public String updateBasicInformation(@Valid AccountBasicInformationForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes, @AuthenticationPrincipal Account signedInAccount) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.accountBasicInformationForm", bindingResult);
+            redirectAttributes.addFlashAttribute("accountBasicInformationForm", form);
+            redirectAttributes.addAttribute("errorUpdateBasicInformation", "true");
+            return "redirect:/account-spaces/my-profile";
+        }
         accountService.updateBasicInformation(signedInAccount.getId(), form);
         redirectAttributes.addAttribute("updatedBasicInformation", "true");
         return "redirect:/account-spaces/my-profile";

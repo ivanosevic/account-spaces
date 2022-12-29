@@ -31,35 +31,34 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors()
-                .and()
-                    .authorizeHttpRequests().antMatchers(HttpMethod.GET, "/static/**", "/webjars/**").permitAll()
-                .and()
-                    .authorizeHttpRequests().antMatchers(HttpMethod.GET, "/sign-in").permitAll()
-                .and()
-                    .authorizeHttpRequests().antMatchers(HttpMethod.POST, "/sign-in").permitAll()
-                .and()
-                    .authorizeHttpRequests().antMatchers(HttpMethod.POST, "/logout").permitAll()
-                .and()
-                    .authorizeHttpRequests().anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/sign-in")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .failureUrl("/sign-in?error")
-                    .defaultSuccessUrl("/account-spaces/my-profile")
-                .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/sign-in?logout")
-                .and()
-                .rememberMe()
-                    .key(rememberMeProperties.getKey())
-                    .rememberMeParameter("remember-me")
-                    .tokenValiditySeconds(rememberMeProperties.getDuration());
+        http.cors();
+
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/static/**", "/webjars/**").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/sign-in").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/sign-in").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/logout").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/account-spaces/my-profile").authenticated();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/account-spaces/my-profile/basic-information").authenticated();
+        http.authorizeHttpRequests().anyRequest().denyAll();
+
+        http.formLogin()
+                .loginPage("/sign-in")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .failureUrl("/sign-in?error")
+                .defaultSuccessUrl("/account-spaces/my-profile");
+
+        http.logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/sign-in?logout");
+
+        http.rememberMe()
+                .key(rememberMeProperties.getKey())
+                .rememberMeParameter("remember-me")
+                .tokenValiditySeconds(rememberMeProperties.getDuration());
+
         return http.build();
     }
 }
