@@ -32,11 +32,6 @@ public class AccountController {
         return "sign-up";
     }
 
-    @GetMapping("/forgot-password")
-    public String showPasswordRecoveryPage() {
-        return "forgot-password";
-    }
-
     @GetMapping("/account-spaces/my-profile")
     public String showMyProfilePage(@AuthenticationPrincipal Account signedInAccount, Model model) {
         var currentAccountData = accountService.findById(signedInAccount.getId());
