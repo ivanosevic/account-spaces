@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Profile | Account Spaces</title>
+  <link rel="stylesheet" href="/webjars/materializecss/1.0.0/css/materialize.min.css"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/my-profile.css"/>
+</head>
+<body>
+<div th:replace="~{ component/navbar.html :: mainNavbar}"></div>
+
+<section id="basic-information-form" class="row">
+  <div class="col s12 m6 offset-m3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Basic Information</span>
+        <form method="post" action="/account-spaces/my-profile/basic-information" accept-charset="UTF-8"
+              th:object="${accountBasicInformationForm}">
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="name" name="name" th:field="*{name}" class="validate" th:errorclass="invalid" type="text">
+              <label for="name">First Name</label>
+              <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                <span th:each="error : ${#fields.errors('name')}" th:text="${error}" class="helper-text red-text"></span>
+              </div>
+            </div>
+            <div class="input-field col s6">
+              <input id="lastname" name="name" th:field="*{lastname}" th:errorclass="invalid" type="text">
+              <label for="lastname">Last Name</label>
+              <div th:if="${#fields.hasErrors('lastname')}" class="invalid-feedback">
+                <span th:each="error : ${#fields.errors('lastname')}" th:text="${error}" class="helper-text red-text"></span>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" th:name="${_csrf.parameterName}" class="validate" th:value="${_csrf.token}"/>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea placeholder="Write about yourself!" id="summaryProfile" name="summaryProfile"
+                        th:field="*{profileSummary}" th:errorclass="invalid" class="materialize-textarea" rows="6"
+                        cols="20" data-length="200"></textarea>
+              <label for="summaryProfile">Profile Summary</label>
+              <div th:if="${#fields.hasErrors('profileSummary')}" class="invalid-feedback">
+                <span th:each="error : ${#fields.errors('profileSummary')}" th:text="${error}" class="helper-text red-text"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 center-content">
+              <button class="btn waves-effect waves-light" type="submit" name="action">
+                Update
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="change-password-form" class="row">
+  <div class="col s12 m6 offset-m3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Change Password</span>
+        <form method="post" action="/account-spaces/change-password" accept-charset="UTF-8"
+              th:object="${changePasswordForm}">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="currentPassword" name="currentPassword" th:field="*{password}" th:errorclass="invalid"
+                     type="password" class="validate">
+              <label for="currentPassword">Current Password</label>
+              <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+                <span th:each="error : ${#fields.errors('password')}" th:text="${error}" class="helper-text red-text"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="newPassword" name="newPassword" th:field="*{newPassword}" th:errorclass="invalid"
+                     type="password" class="validate">
+              <label for="newPassword">New Password</label>
+              <div th:if="${#fields.hasErrors('newPassword')}" class="invalid-feedback">
+                <span th:each="error : ${#fields.errors('newPassword')}" th:text="${error}" class="helper-text red-text"></span>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <div class="row">
+            <div class="col s12 center-content">
+              <button class="btn waves-effect waves-light" type="submit" name="action">
+                Change Passwords
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="/webjars/materializecss/1.0.0/js/materialize.min.js"></script>
+<script src="/static/js/sidenav.js" type="text/javascript"></script>
+<script src="/static/js/dashboard.js" type="text/javascript"></script>
+<script src="/static/js/profile.js" type="text/javascript"></script>
+<script th:if="${param.updatedBasicInformation}">  M.toast({html: 'Account updated successfully.'})</script>
+<script th:if="${param.errorUpdateBasicInformation}">  M.toast({html: 'Error while updating your account. Check the feedback and submit again.'})</script>
+<script th:if="${param.errorPasswordUpdate}">  M.toast({html: 'Error while updating your password. Check the feedback and submit again.'})</script>
+<script th:if="${param.passwordMismatch}">  M.toast({html: 'Your password does not match with your current one. Try again.'})</script>
+</body>
+</html>

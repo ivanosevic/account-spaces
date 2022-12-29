@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="mainNavbar" th:remove="tag">
+  <header class="mb-3">
+    <form action="/logout" method="post" id="logoutForm">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    </form>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i>
+        </a>
+        <a href="/account-spaces/my-profile" class="brand-logo">Account Spaces</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="/account-spaces/my-profile">My Profile</a></li>
+          <li><a href="/account-spaces/activity-log">Activity Log</a></li>
+          <li><a href="#" id="logoutBtnNavbar">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <ul class="sidenav" id="mobile-demo">
+      <li class="active"><a href="/account-spaces/my-profile">My Profile</a></li>
+      <li><a href="/account-spaces/activity-log">Activity Log</a></li>
+      <li><a href="#" id="logoutBtnSidebar">Logout</a></li>
+    </ul>
+  </header>
+</div>
+</body>
+</html>
