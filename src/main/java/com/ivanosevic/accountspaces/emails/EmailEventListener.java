@@ -1,6 +1,7 @@
 package com.ivanosevic.accountspaces.emails;
 
 import com.ivanosevic.accountspaces.accounts.BasicInformationUpdatedEvent;
+import com.ivanosevic.accountspaces.accounts.PasswordUpdatedEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -19,6 +20,12 @@ public class EmailEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void sendVerificationEmail(BasicInformationUpdatedEvent basicInformationUpdatedEvent) {
         var basicInformationUpdatedEmail = emailFactory.basicInformationUpdatedEmail(basicInformationUpdatedEvent.getEmail(), basicInformationUpdatedEvent.getFullname());
+        emailService.send(basicInformationUpdatedEmail);
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void sendPasswordChangedEmail(PasswordUpdatedEvent passwordUpdatedEvent) {
+        var basicInformationUpdatedEmail = emailFactory.passwordChangedEmail(passwordUpdatedEvent.getEmail(), passwordUpdatedEvent.getFullname());
         emailService.send(basicInformationUpdatedEmail);
     }
 }

@@ -33,7 +33,7 @@ public class DefaultAccountService implements AccountService {
 
     @Override
     public void changePassword(Integer accountId, ChangePasswordForm changePasswordForm) {
-        var account = accountRepository.getReferenceById(accountId);
+        var account = accountRepository.findByIdNoRelations(accountId).orElseThrow(AccountNotFoundException::new);
         var passwordDoesNotMatch = !passwordEncoder.matches(changePasswordForm.getPassword(), account.getPassword());
         if (passwordDoesNotMatch) {
             throw new ChangePasswordException();
@@ -41,6 +41,8 @@ public class DefaultAccountService implements AccountService {
         var hashedPassword = passwordEncoder.encode(changePasswordForm.getNewPassword());
         account.setPassword(hashedPassword);
         accountRepository.save(account);
+        var sendPasswordUpdatedEvent = new PasswordUpdatedEvent(this, account.getFullname(), account.getEmail());
+        applicationEventPublisher.publishEvent(sendPasswordUpdatedEvent);
     }
 
     @Override
